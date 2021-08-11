@@ -1,0 +1,105 @@
+/**
+ * Sample React Native App
+ * https://github.com/facebook/react-native
+ *
+ * @format
+ * @flow strict-local
+ */
+
+import React from 'react';
+import {
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  useColorScheme,
+  View,
+    Button
+} from 'react-native';
+import Video from 'react-native-video';
+import GetData  from './getData';
+import { InAppBrowser } from 'react-native-inappbrowser-reborn'
+
+
+const App = () => {
+
+    async function SendLogin() {
+            const response = await fetch('http://45.64.184.37:8648/v1/login', {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: 'mickey.csq@gmail.com',
+                    password: 'abc1234*',
+                    memberProfileComId : 3
+                })
+            });
+            console.log(response.status);
+        //console.log(response.body);
+            const json = await response.json();
+            console.log(json);
+        await GetUserProfile(json.token);
+
+    }
+
+
+    async function GetUserProfile(token){
+            const response = await fetch('http://45.64.184.37:8648/v1/member-info', {
+                method: 'GET',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization' : `Bearer ${token}`
+                }
+            }
+            );
+        console.log(response.status);
+            const json = await response.json();
+            console.log(json);
+
+    }
+
+
+
+     return (
+         <View>
+         <Text>Hello World!</Text>
+         <Button
+           onPress={SendLogin}
+           title="login"
+           color="#841584"
+           accessibilityLabel="click to login"
+         />
+         
+         </View>
+           )
+}
+
+
+// const App = () => {
+//      return (
+//          <View>
+// <Video
+// source={{ uri: 'https://multiplatform-f.akamaihd.net/i/multi/will/bunny/big_buck_bunny_,640x360_400,640x360_700,640x360_1000,950x540_1500,.f4v.csmil/master.m3u8' }}
+// style={{ width: 300, height: 300 }}
+// controls={true}
+//  />
+//          </View>
+//            )
+// }
+
+var styles = StyleSheet.create({
+      backgroundVideo: {
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              bottom: 0,
+              right: 0,
+            },
+});
+
+
+export default App;

@@ -1,0 +1,13 @@
+
+fetch('http://45.64.184.37:8648/v1/login', {
+  method: 'POST',
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    username: 'mickey.csq@gmail.com',
+    password: 'abc1234*',
+memberProfileComId : 3
+  })
+});
